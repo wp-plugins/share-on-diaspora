@@ -40,4 +40,7 @@ post in "Twenty Thirteen" theme.
 = 0.2 =
 * Pod selection dialog renewed
 
+= 0.3 =
+* Customizable button settings (text color, background color, size and rounded corners)
+
 == Upgrade Notice ==
