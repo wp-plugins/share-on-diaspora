@@ -21,8 +21,14 @@ This plugin adds a "Share on D*" button at the bottom of your posts.
 3. Enjoy
 
 == Frequently Asked Questions ==
+= Is it another button linked to JoinDiaspora? =
+No. Users can reshare to any Diaspora pod: select from the list or type their own.
 
+= I want to report a bug, request a feature or contribute code. What shall I do? =
+Bug reports, feature requests and real code are always welcome. Check out https://github.com/ciubotaru/share-on-diaspora or drop a line to <vitalie at ciubotaru dot tk>.
 
+= Does your plugin collect private information about blog visitors? =
+No.
 
 == Screenshots ==
 
