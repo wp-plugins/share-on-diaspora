@@ -110,7 +110,7 @@ function my_admin_init() {
         'labels' => array('5' => 'Rounded', '0' => 'Square')
         )
     );
-    add_settings_field( 'reset', 'Reset', '', 'share_on_diaspora_options', 'section-one');
+    add_settings_field( 'reset', '', '', 'share_on_diaspora_options', 'section-one');
 }
 
 add_action( 'set_default', 'set_option_defaults' );
