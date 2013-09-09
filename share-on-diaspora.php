@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.3
+Version: 0.3.2
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
@@ -49,19 +49,20 @@ function set_default()
 function diaspora_button_display($content)
 {
 //$bc = preg_match('/^[a-f0-9]{6}$/i', $_GET['bc']) ? $_GET['bc'] : '3c72c2';
-$bc = ( get_option('share-on-diaspora-settings')['button_color'] != '' ) ? get_option('share-on-diaspora-settings')['button_color'] : get_default('button_color');
+$options_array = get_option('share-on-diaspora-settings');
+$bc = ( $options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color');
 // border-color: #aabbd2; border-width: 1px; color: #3c72c2;
 //$bb = preg_match('/^[a-f0-9]{6}$/i', $_GET['bb']) ? $_GET['bb'] : 'ecf2f6';
-$bb = ( get_option('share-on-diaspora-settings')['button_background'] != '' ) ? get_option('share-on-diaspora-settings')['button_background'] : get_default('button_background');
+$bb = ( $options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background');
 // background-color: #ecf2f6; 
 
-switch (get_option('share-on-diaspora-settings')['button_size']) {
+switch ($options_array['button_size']) {
     case '2': $bs = '28'; $fs = '17'; $bwidth = '120'; break;
     case '3': $bs = '33'; $fs = '20'; $bwidth = '140'; break;
     case '4': $bs = '48'; $fs = '29'; $bwidth = '204'; break;
     default: $bs = '23'; $fs = '14'; $bwidth = '98'; 
 }
-$br =  ( get_option('share-on-diaspora-settings')['button_rounded'] != '' ) ? get_option('share-on-diaspora-settings')['button_rounded'] : get_default('button_rounded');
+$br =  ( $options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded');
 
 $button_box = "<br><a href=\"javascript:(function(){var url = window.location.href;var title = document.title;   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
 <div id=\"diaspora-button-box\" style=\"box-sizing: content-box; -moz-box-sizing: content-box; float:left; margin-right: 10px; width:" . $bwidth . "px; height:" . $bs . "px; background-color: #" . $bb . "; -moz-border-radius:" . $br . "px; border-radius:" . $br . "px; border-color: #" . $bc . "; border-width: 1px; color: #" . $bc . "; border-style: solid; padding: 0 5px 0 5px; text-align: center;\"><font style=\"font-family:arial,helvetica,sans-serif;font-size:" . $fs ."px;margin: 0; line-height:" . ($bs-2) . "px;\">share this</font> <div style=\"float: right; margin: 1px 1px 1px 1px;height:" . ($bs-3) . "px;\"><img style=\"vertical-align: top; margin:0 auto; padding:0; border:0;\" src=\"" . plugin_dir_url(__FILE__) . "/images/asterisk-" . ($bs-3) . ".png\"></div>
@@ -83,28 +84,29 @@ add_action( 'admin_init', 'my_admin_init' );
 function my_admin_init() {
     register_setting( 'share_on_diaspora_options-group', 'share-on-diaspora-settings', 'my_settings_validate' );
 //    register_setting( 'share_on_diaspora_options-group', 'share-on-diaspora-settings' );
+    $options_array = get_option('share-on-diaspora-settings');
     add_settings_section( 'section-one', 'Button properties', 'section_one_callback', 'share_on_diaspora_options' );
     add_settings_field( 'button_background', 'Background color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background]',
-        'value' => ((get_option( 'share-on-diaspora-settings' )['button_background'] != '' ) ? get_option( 'share-on-diaspora-settings' )['button_background'] : get_default('button_background')),
+        'value' => (($options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background')),
         'comment' => 'A six-digit hexadecimal number like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.'
         )
     );
     add_settings_field( 'button_color', 'Text and border color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color]',
-        'value' => ((get_option( 'share-on-diaspora-settings' )['button_color'] != '' ) ? get_option( 'share-on-diaspora-settings' )['button_color'] : get_default('button_color')),
+        'value' => (($options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color')),
         'comment' => 'A six-digit hexadecimal number like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.'
         )
     );
     add_settings_field( 'button_size', 'Button size', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_size]',
-        'value' => ((get_option( 'share-on-diaspora-settings' )['button_size'] != '' ) ? get_option( 'share-on-diaspora-settings' )['button_size'] : get_default('button_size')),
+        'value' => (($options_array['button_size'] != '' ) ? $options_array['button_size'] : get_default('button_size')),
         'labels' => array('1' => 'Small', '2' => 'Medium', '3' => 'Large', '4' => 'Huge')
         )
     );
     add_settings_field( 'button_rounded', 'Rounded corners', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_rounded]',
-        'value' => ((get_option( 'share-on-diaspora-settings' )['button_rounded'] != '' ) ? get_option( 'share-on-diaspora-settings' )['button_rounded'] : get_default('button_rounded')),
+        'value' => (($options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded')),
         'labels' => array('5' => 'Rounded', '0' => 'Square')
         )
     );
@@ -182,7 +184,7 @@ function share_on_diaspora_options_page() {
     ?>
     <div class="wrap">
         <?php screen_icon(); ?>
-        <h2>Share on Diaspora (ver. <?php echo get_plugin_data(__FILE__)['Version']; ?>) Options</h2>
+        <h2>Share on Diaspora (ver. <?php $plugin_data_array = get_plugin_data(__FILE__); echo $plugin_data_array['Version']; ?>) Options</h2>
         <form action="options.php" method="POST">
             <?php settings_fields( 'share_on_diaspora_options-group' ); ?>
             <?php do_settings_sections( 'share_on_diaspora_options' ); ?>
