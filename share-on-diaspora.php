@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.3.2
+Version: 0.3.3
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
@@ -48,6 +48,8 @@ function set_default()
 
 function diaspora_button_display($content)
 {
+    if( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) ) return $content;
+
 //$bc = preg_match('/^[a-f0-9]{6}$/i', $_GET['bc']) ? $_GET['bc'] : '3c72c2';
 $options_array = get_option('share-on-diaspora-settings');
 $bc = ( $options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color');
@@ -65,7 +67,7 @@ switch ($options_array['button_size']) {
 $br =  ( $options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded');
 
 $button_box = "<br><a href=\"javascript:(function(){var url = window.location.href;var title = document.title;   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
-<div id=\"diaspora-button-box\" style=\"box-sizing: content-box; -moz-box-sizing: content-box; float:left; margin-right: 10px; width:" . $bwidth . "px; height:" . $bs . "px; background-color: #" . $bb . "; -moz-border-radius:" . $br . "px; border-radius:" . $br . "px; border-color: #" . $bc . "; border-width: 1px; color: #" . $bc . "; border-style: solid; padding: 0 5px 0 5px; text-align: center;\"><font style=\"font-family:arial,helvetica,sans-serif;font-size:" . $fs ."px;margin: 0; line-height:" . ($bs-2) . "px;\">share this</font> <div style=\"float: right; margin: 1px 1px 1px 1px;height:" . ($bs-3) . "px;\"><img style=\"vertical-align: top; margin:0 auto; padding:0; border:0;\" src=\"" . plugin_dir_url(__FILE__) . "/images/asterisk-" . ($bs-3) . ".png\"></div>
+<div id=\"diaspora-button-box\" style=\"box-sizing: content-box; -moz-box-sizing: content-box; float:left; margin-right: 10px; width:" . $bwidth . "px; height:" . $bs . "px; background-color: #" . $bb . "; -moz-border-radius:" . $br . "px; border-radius:" . $br . "px; border-color: #" . $bc . "; border-width: 1px; color: #" . $bc . "; border-style: solid; padding: 0 5px 0 5px; text-align: center;  font-size: ". $fs . "px; font-style: normal; font-weight: normal; line-height: 100%;\"><font style=\"font-family:arial,helvetica,sans-serif;font-size:" . $fs ."px;margin: 0; line-height:" . ($bs-2) . "px;\">share this</font> <div style=\"float: right; margin: 1px 1px 1px 1px;height:" . ($bs-3) . "px;\"><img style=\"vertical-align: top; margin:0 auto; padding:0; border:0;\" src=\"" . plugin_dir_url(__FILE__) . "/images/asterisk-" . ($bs-3) . ".png\"></div>
 </div></a>";
 		return $content . $button_box;
 }
@@ -110,7 +112,7 @@ function my_admin_init() {
         'labels' => array('5' => 'Rounded', '0' => 'Square')
         )
     );
-    add_settings_field( 'reset', '', '', 'share_on_diaspora_options', 'section-one');
+    add_settings_field( 'reset', 'Restore defaults', 'share_on_diaspora_reset_callback', 'share_on_diaspora_options', 'section-one');
 }
 
 add_action( 'set_default', 'set_option_defaults' );
@@ -148,6 +150,12 @@ function my_radio_group( $args ) {
         echo "<input type='radio' name='$name' value='$row' ".( ($value == $row) ? "checked" : "")."/> $row_label<br>";
         }
     }
+
+function share_on_diaspora_reset_callback()
+    {
+    echo "<input type='submit' name='share-on-diaspora-settings[reset]' value='Defaults'>";
+    }
+
 
 function my_settings_validate( $input ) {
 //    $output = get_option( 'share-on-diaspora-settings' );
@@ -189,7 +197,6 @@ function share_on_diaspora_options_page() {
             <?php settings_fields( 'share_on_diaspora_options-group' ); ?>
             <?php do_settings_sections( 'share_on_diaspora_options' ); ?>
             <?php submit_button('Update', 'primary',  'submit-form', false); ?>
-            <?php submit_button('Defaults', 'secondary', 'share-on-diaspora-settings[reset]', false); ?>
         </form>
     </div>
     <?php
