@@ -29,8 +29,11 @@ global $defaults;
 $defaults = array(
     'button_color' => '3c72c2',
     'button_background' => 'ecf2f6',
+    'button_color_hover' => '3c72c2',
+    'button_background_hover' => 'B8CCD9',
     'button_size' => '1',
     'button_rounded' => '5',
+    'button_text' => 'share this'
     );
 
 function get_default($key)
@@ -170,30 +173,12 @@ function generate_button($preview)
     }
 
 function diaspora_button_display($content)
-{
+    {
     if( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) ) return $content;
 
-//$bc = preg_match('/^[a-f0-9]{6}$/i', $_GET['bc']) ? $_GET['bc'] : '3c72c2';
-$options_array = get_option('share-on-diaspora-settings');
-$bc = ( $options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color');
-// border-color: #aabbd2; border-width: 1px; color: #3c72c2;
-//$bb = preg_match('/^[a-f0-9]{6}$/i', $_GET['bb']) ? $_GET['bb'] : 'ecf2f6';
-$bb = ( $options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background');
-// background-color: #ecf2f6; 
-
-switch ($options_array['button_size']) {
-    case '2': $bs = '28'; $fs = '17'; $bwidth = '120'; break;
-    case '3': $bs = '33'; $fs = '20'; $bwidth = '140'; break;
-    case '4': $bs = '48'; $fs = '29'; $bwidth = '204'; break;
-    default: $bs = '23'; $fs = '14'; $bwidth = '98'; 
-}
-$br =  ( $options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded');
-
-$button_box = "<br><a href=\"javascript:(function(){var url = window.location.href;var title = document.title;   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
-<div id=\"diaspora-button-box\" style=\"box-sizing: content-box; -moz-box-sizing: content-box; float:left; margin-right: 10px; width:" . $bwidth . "px; height:" . $bs . "px; background-color: #" . $bb . "; -moz-border-radius:" . $br . "px; border-radius:" . $br . "px; border-color: #" . $bc . "; border-width: 1px; color: #" . $bc . "; border-style: solid; padding: 0 5px 0 5px; text-align: center;  font-size: ". $fs . "px; font-style: normal; font-weight: normal; line-height: 100%;\"><font style=\"font-family:arial,helvetica,sans-serif;font-size:" . $fs ."px;margin: 0; line-height:" . ($bs-2) . "px;\">share this</font> <div style=\"float: right; margin: 1px 1px 1px 1px;height:" . ($bs-3) . "px;\"><img style=\"vertical-align: top; margin:0 auto; padding:0; border:0;\" src=\"" . plugin_dir_url(__FILE__) . "/images/asterisk-" . ($bs-3) . ".png\"></div>
-</div></a>";
-		return $content . $button_box;
-}
+    $button_box = generate_button(FALSE);
+    return $content . "<br>" . $button_box;
+    }
 
 add_action("the_content", "diaspora_button_display");
 
@@ -213,14 +198,22 @@ function my_admin_init() {
     add_settings_section( 'section-one', 'Button properties', 'section_one_callback', 'share_on_diaspora_options' );
     add_settings_field( 'button_background', 'Background color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background]',
-        'value' => (($options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background')),
-        'comment' => 'A six-digit hexadecimal number like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.'
+        'value' => (($options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background'))
+        )
+    );
+    add_settings_field( 'button_background_hover', 'Background color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
+        'name' => 'share-on-diaspora-settings[button_background_hover]',
+        'value' => (($options_array['button_background_hover'] != '' ) ? $options_array['button_background_hover'] : get_default('button_background_hover'))
         )
     );
     add_settings_field( 'button_color', 'Text and border color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color]',
-        'value' => (($options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color')),
-        'comment' => 'A six-digit hexadecimal number like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.'
+        'value' => (($options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color'))
+        )
+    );
+    add_settings_field( 'button_color_hover', 'Text and border color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
+        'name' => 'share-on-diaspora-settings[button_color_hover]',
+        'value' => (($options_array['button_color_hover'] != '' ) ? $options_array['button_color_hover'] : get_default('button_color_hover'))
         )
     );
     add_settings_field( 'button_size', 'Button size', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
@@ -235,6 +228,11 @@ function my_admin_init() {
         'labels' => array('5' => 'Rounded', '0' => 'Square')
         )
     );
+    add_settings_field( 'button_text', 'Text on the button', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
+        'name' => 'share-on-diaspora-settings[button_text]',
+        'value' => (($options_array['button_text'] != '' ) ? $options_array['button_text'] : get_default('button_text'))
+        )
+    );
     add_settings_field( 'reset', 'Restore defaults', 'share_on_diaspora_reset_callback', 'share_on_diaspora_options', 'section-one');
     
     register_setting( 'share_on_diaspora_options-group2', 'share-on-diaspora-settings2', 'my_settings_validate2' );
@@ -246,13 +244,15 @@ function my_admin_init() {
         }
     }
 
-add_action( 'set_default', 'set_option_defaults' );
+function activate_share_on_diaspora_plugin()
+    {
+    set_default();
+    $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
+    if (!file_exists($css_path))
+        create_css_file();
+    }
 
-function prefix_on_deactivate() {
-       delete_option('share-on-diaspora-settings');
-}
-
-register_deactivation_hook(__FILE__, 'prefix_on_deactivate');
+register_activation_hook(__FILE__, 'activate_share_on_diaspora_plugin');
 
 function section_one_callback() {
     echo 'Use the parameters below to change the look and feel of your share button. All colors are six-digit hexadecimal numbers like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.';
@@ -268,8 +268,8 @@ function field_one_callback() {
 function my_text_input( $args ) {
     $name = esc_attr( $args['name'] );
     $value = esc_attr( $args['value'] );
-    $comment = $args['comment'];
-    echo "<input type='text' name='$name'value='$value' /> ".$comment;
+//    $comment = $args['comment'];
+    echo "<input type='text' name='$name' value='$value' /> ";
 }
 
 function my_radio_group( $args ) {
@@ -302,7 +302,7 @@ function my_checkboxes($args)
 
 function my_settings_validate( $input ) {
     $output = $input;
-    $colors = array('button_color', 'button_background');
+    $colors = array('button_color', 'button_background', 'button_color_hover', 'button_background_hover');
     foreach ($colors as $i)
         {
         if ($output[$i] != '')
@@ -387,6 +387,5 @@ function share_on_diaspora_options_page() {
             } ?>
     </div>
     <?php
-
 };
 ?>
