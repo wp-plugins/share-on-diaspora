@@ -198,39 +198,39 @@ function my_admin_init() {
     add_settings_section( 'section-one', 'Button properties', 'section_one_callback', 'share_on_diaspora_options' );
     add_settings_field( 'button_background', 'Background color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background]',
-        'value' => (($options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background'))
+        'value' => (!empty($options_array['button_background']) ? $options_array['button_background'] : get_default('button_background'))
         )
     );
     add_settings_field( 'button_background_hover', 'Background color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background_hover]',
-        'value' => (($options_array['button_background_hover'] != '' ) ? $options_array['button_background_hover'] : get_default('button_background_hover'))
+        'value' => (!empty($options_array['button_background_hover']) ? $options_array['button_background_hover'] : get_default('button_background_hover'))
         )
     );
     add_settings_field( 'button_color', 'Text and border color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color]',
-        'value' => (($options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color'))
+        'value' => (!empty($options_array['button_color']) ? $options_array['button_color'] : get_default('button_color'))
         )
     );
     add_settings_field( 'button_color_hover', 'Text and border color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color_hover]',
-        'value' => (($options_array['button_color_hover'] != '' ) ? $options_array['button_color_hover'] : get_default('button_color_hover'))
+        'value' => (!empty($options_array['button_color_hover']) ? $options_array['button_color_hover'] : get_default('button_color_hover'))
         )
     );
     add_settings_field( 'button_size', 'Button size', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_size]',
-        'value' => (($options_array['button_size'] != '' ) ? $options_array['button_size'] : get_default('button_size')),
+        'value' => (!empty($options_array['button_size']) ? $options_array['button_size'] : get_default('button_size')),
         'labels' => array('1' => 'Small', '2' => 'Medium', '3' => 'Large', '4' => 'Huge')
         )
     );
     add_settings_field( 'button_rounded', 'Rounded corners', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_rounded]',
-        'value' => (($options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded')),
+        'value' => (!empty($options_array['button_rounded']) ? $options_array['button_rounded'] : get_default('button_rounded')),
         'labels' => array('5' => 'Rounded', '0' => 'Square')
         )
     );
     add_settings_field( 'button_text', 'Text on the button', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_text]',
-        'value' => (($options_array['button_text'] != '' ) ? $options_array['button_text'] : get_default('button_text'))
+        'value' => (!empty($options_array['button_text']) ? $options_array['button_text'] : get_default('button_text'))
         )
     );
     add_settings_field( 'reset', 'Restore defaults', 'share_on_diaspora_reset_callback', 'share_on_diaspora_options', 'section-one');
