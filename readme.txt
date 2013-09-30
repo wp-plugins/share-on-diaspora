@@ -4,7 +4,7 @@ Donate link:
 Tags: diaspora, share, button
 Requires at least: 3.2.1
 Tested up to: 3.6
-Stable tag: 0.4
+Stable tag: 0.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,11 +40,11 @@ post in "Twenty Thirteen" theme.
 5. To choose the pods to be included in the drop-down list, go to the Settings page, 'Pod list options' tab.
 
 == Changelog ==
-= 0.4 =
+= 0.3.3 =
 * New options (customizable text on the button, color change on mouseover)
 * Customizable pod list on the pod selection page
 
-= 0.4 =
+= 0.3.3 =
 * Bug-fix: bad button formatting on some themes
 * Bug-fix: Missing callback function
 * Bug-fix: Conflict with OpenGraph's "og:description" tag
@@ -65,4 +65,4 @@ post in "Twenty Thirteen" theme.
 * First release
 
 == Upgrade Notice ==
-Version 0.4 introduces new ways to customize you share button. The default values for these options may not match your preferences, so please make sure to check the "Share on D*" settings page and tweak them to your liking.
+Version 0.3.3 introduces new ways to customize you share button. The default values for these options may not match your preferences, so please make sure to check the "Share on D*" settings page and tweak them to your liking.
