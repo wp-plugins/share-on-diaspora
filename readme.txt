@@ -4,7 +4,7 @@ Donate link:
 Tags: diaspora, share, button
 Requires at least: 3.2.1
 Tested up to: 3.6
-Stable tag: 0.3.3
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ post in "Twenty Thirteen" theme.
 * New options (customizable text on the button, color change on mouseover)
 * Customizable pod list on the pod selection page
 
-= 0.3.3 =
+= 0.4 =
 * Bug-fix: bad button formatting on some themes
 * Bug-fix: Missing callback function
 * Bug-fix: Conflict with OpenGraph's "og:description" tag
