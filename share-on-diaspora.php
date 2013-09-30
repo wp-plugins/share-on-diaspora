@@ -254,7 +254,7 @@ function check_update()
         {
         set_default();
         $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
-        if (!file_exists($css_path) create_css_file();
+        if (!file_exists($css_path)) create_css_file();
         }
     }
 
