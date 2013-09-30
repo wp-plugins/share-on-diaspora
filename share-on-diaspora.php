@@ -33,7 +33,8 @@ $defaults = array(
     'button_background_hover' => 'B8CCD9',
     'button_size' => '1',
     'button_rounded' => '5',
-    'button_text' => 'share this'
+    'button_text' => 'share this',
+    'button_version' => '0.4'
     );
 
 function get_default($key)
@@ -190,6 +191,7 @@ function share_on_diaspora_menu()
     }
 
 add_action( 'admin_init', 'my_admin_init' );
+add_action( 'admin_init', 'check_update' );
 
 function my_admin_init() {
     register_setting( 'share_on_diaspora_options-group', 'share-on-diaspora-settings', 'my_settings_validate' );
@@ -244,15 +246,17 @@ function my_admin_init() {
         }
     }
 
-function activate_share_on_diaspora_plugin()
+function check_update()
     {
-    set_default();
-    $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
-    if (!file_exists($css_path))
-        create_css_file();
+    global $defaults;
+    $version_diff = version_compare($defaults['button_version'], get_option('button_version'));
+    if ($version_diff != 0)
+        {
+        set_default();
+        $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
+        if (!file_exists($css_path) create_css_file();
+        }
     }
-
-register_activation_hook(__FILE__, 'activate_share_on_diaspora_plugin');
 
 function section_one_callback() {
     echo 'Use the parameters below to change the look and feel of your share button. All colors are six-digit hexadecimal numbers like <code>000000</code> or <code>ffffff</code>. Leave empty to restore the default value.';
