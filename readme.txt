@@ -40,7 +40,7 @@ post in "Twenty Thirteen" theme.
 5. To choose the pods to be included in the drop-down list, go to the Settings page, 'Pod list options' tab.
 
 == Changelog ==
-= 0.4 =
+= 0.3.3 =
 * New options (customizable text on the button, color change on mouseover)
 * Customizable pod list on the pod selection page
 
@@ -65,4 +65,4 @@ post in "Twenty Thirteen" theme.
 * First release
 
 == Upgrade Notice ==
-Version 0.4 introduces new ways to customize you share button. The default values for these options may not match your preferences, so please make sure to check the "Share on D*" settings page and tweak them to your liking.
+Version 0.3.3 introduces new ways to customize you share button. The default values for these options may not match your preferences, so please make sure to check the "Share on D*" settings page and tweak them to your liking.

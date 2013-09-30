@@ -33,8 +33,7 @@ $defaults = array(
     'button_background_hover' => 'B8CCD9',
     'button_size' => '1',
     'button_rounded' => '5',
-    'button_text' => 'share this',
-    'button_version' => '0.4'
+    'button_text' => 'share this'
     );
 
 function get_default($key)
@@ -46,10 +45,10 @@ function get_default($key)
 function create_css_file()
     {
     $options_array = get_option('share-on-diaspora-settings');
-    $bc = ( $options_array['button_color'] != '' ) ? $options_array['button_color'] : get_default('button_color');
-    $bb = ( $options_array['button_background'] != '' ) ? $options_array['button_background'] : get_default('button_background');
-    $bc_h = ( $options_array['button_color_hover'] != '' ) ? $options_array['button_color_hover'] : get_default('button_color_hover');
-    $bb_h = ( $options_array['button_background_hover'] != '' ) ? $options_array['button_background_hover'] : get_default('button_background_hover');
+    $bc = !empty( $options_array['button_color'] ) ? $options_array['button_color'] : get_default('button_color');
+    $bb = !empty( $options_array['button_background'] ) ? $options_array['button_background'] : get_default('button_background');
+    $bc_h = !empty( $options_array['button_color_hover'] ) ? $options_array['button_color_hover'] : get_default('button_color_hover');
+    $bb_h = !empty( $options_array['button_background_hover'] ) ? $options_array['button_background_hover'] : get_default('button_background_hover');
 
     switch ($options_array['button_size'])
         {
@@ -58,7 +57,7 @@ function create_css_file()
         case '4': $bs = '48'; $fs = '29'; break;
         default: $bs = '23'; $fs = '14';  
         }
-    $br = ( $options_array['button_rounded'] != '' ) ? $options_array['button_rounded'] : get_default('button_rounded');
+    $br = !empty( $options_array['button_rounded'] ) ? $options_array['button_rounded'] : get_default('button_rounded');
 
     $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
     $css_content = "#diaspora-button-box {
@@ -165,7 +164,7 @@ function generate_button($preview)
         case '4': $bs = '48'; break;
         default: $bs = '23';
         }
-    $bt = ( $options_array['button_text'] != '' ) ? $options_array['button_text'] : get_default('button_text');
+    $bt = !empty( $options_array['button_text'] ) ? $options_array['button_text'] : get_default('button_text');
 
     $button_box = "<a href=\"javascript:(function(){var url = ". (($preview) ? "'[Page address here]'" : "window.location.href") . " ;var title = ". (($preview) ?  "'[Page title here]'" :  "document.title") . ";   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
 <div id=\"diaspora-button-box\"><font>" . $bt  . "</font> <div id=\"diaspora-button-inner\"><img src=\"" . plugin_dir_url(__FILE__) . "images/asterisk-" . ($bs-3) . ".png\"></div>
@@ -191,7 +190,6 @@ function share_on_diaspora_menu()
     }
 
 add_action( 'admin_init', 'my_admin_init' );
-add_action( 'admin_init', 'check_update' );
 
 function my_admin_init() {
     register_setting( 'share_on_diaspora_options-group', 'share-on-diaspora-settings', 'my_settings_validate' );
@@ -244,18 +242,7 @@ function my_admin_init() {
         {
         add_settings_field( $i, $i, 'my_checkboxes', 'share_on_diaspora_options2', 'section-two', array('podname' => $i));
         }
-    }
-
-function check_update()
-    {
-    global $defaults;
-    $version_diff = version_compare($defaults['button_version'], get_option('button_version'));
-    if ($version_diff != 0)
-        {
-        set_default();
-        $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
-        if (!file_exists($css_path)) create_css_file();
-        }
+    set_default();
     }
 
 function section_one_callback() {
@@ -309,11 +296,11 @@ function my_settings_validate( $input ) {
     $colors = array('button_color', 'button_background', 'button_color_hover', 'button_background_hover');
     foreach ($colors as $i)
         {
-        if ($output[$i] != '')
+        if (!empty( $output[$i] ))
             {
             preg_match('/^[a-f0-9]{6}$/i', $output[$i], $match_array);
             $output[$i] = $match_array[0];
-            if ($output[$i] == '')
+            if (empty( $output[$i] ))
                 {
                 add_settings_error( 'share-on-diaspora-settings', 'invalid-color', 'Invalid value for \''. $i . '\'. Reverting to default.' );
                 }
@@ -323,7 +310,7 @@ function my_settings_validate( $input ) {
             add_settings_error( 'share-on-diaspora-settings', 'missing-color', 'Value missing for \''. $i . '\'. Reverting to default.' );
             }
         }
-    if ($output['reset'] != '')
+    if (!empty( $output['reset'] ))
         {
         add_settings_error( 'share-on-diaspora-settings', 'reverted to defaults', 'All parameters reverted to their default values.' );
         $output = $defaults;
