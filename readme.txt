@@ -3,7 +3,7 @@ Contributors: Vitalie Ciubotaru
 Donate link: 
 Tags: diaspora, share, button
 Requires at least: 3.2.1
-Tested up to: 3.6
+Tested up to: 3.6.1
 Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -40,7 +40,7 @@ post in "Twenty Thirteen" theme.
 5. To choose the pods to be included in the drop-down list, go to the Settings page, 'Pod list options' tab.
 
 == Changelog ==
-= 0.3.3 =
+= 0.4 =
 * New options (customizable text on the button, color change on mouseover)
 * Customizable pod list on the pod selection page
 

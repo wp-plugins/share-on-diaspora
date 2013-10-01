@@ -50,13 +50,15 @@ function create_css_file()
     $bc_h = !empty( $options_array['button_color_hover'] ) ? $options_array['button_color_hover'] : get_default('button_color_hover');
     $bb_h = !empty( $options_array['button_background_hover'] ) ? $options_array['button_background_hover'] : get_default('button_background_hover');
 
-    switch ($options_array['button_size'])
+    $button_size = isset($options_array['button_size']) ? $options_array['button_size'] : get_default('button_size');
+    switch ($button_size)
         {
         case '2': $bs = '28'; $fs = '17'; break;
         case '3': $bs = '33'; $fs = '20'; break;
         case '4': $bs = '48'; $fs = '29'; break;
         default: $bs = '23'; $fs = '14';  
         }
+
     $br = !empty( $options_array['button_rounded'] ) ? $options_array['button_rounded'] : get_default('button_rounded');
 
     $css_path = plugin_dir_path( __FILE__ ). 'share-on-diaspora.css';
@@ -138,6 +140,7 @@ function set_default()
             {
             update_option('$key', '$value');
             }
+        $options_array = get_option('share-on-diaspora-settings');
         }
     }
 
@@ -198,39 +201,39 @@ function my_admin_init() {
     add_settings_section( 'section-one', 'Button properties', 'section_one_callback', 'share_on_diaspora_options' );
     add_settings_field( 'button_background', 'Background color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background]',
-        'value' => (!empty($options_array['button_background']) ? $options_array['button_background'] : get_default('button_background'))
+        'value' => (isset($options_array['button_background']) ? $options_array['button_background'] : get_default('button_background'))
         )
     );
     add_settings_field( 'button_background_hover', 'Background color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_background_hover]',
-        'value' => (!empty($options_array['button_background_hover']) ? $options_array['button_background_hover'] : get_default('button_background_hover'))
+        'value' => (isset($options_array['button_background_hover']) ? $options_array['button_background_hover'] : get_default('button_background_hover'))
         )
     );
     add_settings_field( 'button_color', 'Text and border color', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color]',
-        'value' => (!empty($options_array['button_color']) ? $options_array['button_color'] : get_default('button_color'))
+        'value' => (isset($options_array['button_color']) ? $options_array['button_color'] : get_default('button_color'))
         )
     );
     add_settings_field( 'button_color_hover', 'Text and border color on mouse-over', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_color_hover]',
-        'value' => (!empty($options_array['button_color_hover']) ? $options_array['button_color_hover'] : get_default('button_color_hover'))
-        )
-    );
-    add_settings_field( 'button_size', 'Button size', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
-        'name' => 'share-on-diaspora-settings[button_size]',
-        'value' => (!empty($options_array['button_size']) ? $options_array['button_size'] : get_default('button_size')),
-        'labels' => array('1' => 'Small', '2' => 'Medium', '3' => 'Large', '4' => 'Huge')
+        'value' => (isset($options_array['button_color_hover']) ? $options_array['button_color_hover'] : get_default('button_color_hover'))
         )
     );
     add_settings_field( 'button_rounded', 'Rounded corners', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_rounded]',
-        'value' => (!empty($options_array['button_rounded']) ? $options_array['button_rounded'] : get_default('button_rounded')),
+        'value' => (isset($options_array['button_rounded']) ? $options_array['button_rounded'] : get_default('button_rounded')),
         'labels' => array('5' => 'Rounded', '0' => 'Square')
+        )
+    );
+    add_settings_field( 'button_size', 'Button size', 'my_radio_group', 'share_on_diaspora_options', 'section-one', array(
+        'name' => 'share-on-diaspora-settings[button_size]',
+        'value' => (isset($options_array['button_size']) ? $options_array['button_size'] : get_default('button_size')),
+        'labels' => array('1' => 'Small', '2' => 'Medium', '3' => 'Large', '4' => 'Huge')
         )
     );
     add_settings_field( 'button_text', 'Text on the button', 'my_text_input', 'share_on_diaspora_options', 'section-one', array(
         'name' => 'share-on-diaspora-settings[button_text]',
-        'value' => (!empty($options_array['button_text']) ? $options_array['button_text'] : get_default('button_text'))
+        'value' => (isset($options_array['button_text']) ? $options_array['button_text'] : get_default('button_text'))
         )
     );
     add_settings_field( 'reset', 'Restore defaults', 'share_on_diaspora_reset_callback', 'share_on_diaspora_options', 'section-one');
@@ -288,7 +291,7 @@ function my_checkboxes($args)
     $podname = esc_attr( $args['podname'] );
     echo "<input type='checkbox' name='share-on-diaspora-settings2[" . $podname . "]' value='1' ";
     echo !empty( $options_array[$podname] ) ? "checked":"";
-    echo "/>".$options_array['$podname'];
+    echo "/>";
     }
 
 function my_settings_validate( $input ) {
@@ -313,6 +316,7 @@ function my_settings_validate( $input ) {
     if (!empty( $output['reset'] ))
         {
         add_settings_error( 'share-on-diaspora-settings', 'reverted to defaults', 'All parameters reverted to their default values.' );
+        global $defaults;
         $output = $defaults;
         }
     if ( !is_writable(plugin_dir_path(__FILE__) ) )
@@ -353,7 +357,7 @@ function share_on_diaspora_options_page() {
         };
     if ( isset($_GET['settings-updated']) && $_GET['settings-updated'])
         {
-        $tab = $_GET['tab'];
+        $tab = isset($_GET['tab']) ? $_GET['tab'] : '1';
         switch ($tab)
             {
             //button settings have been saved. Put them into a css file.
@@ -367,7 +371,7 @@ function share_on_diaspora_options_page() {
         <?php screen_icon(); ?>
         <h2>Share on Diaspora (ver. <?php $plugin_data_array = get_plugin_data(__FILE__); echo $plugin_data_array['Version']; ?>) Options</h2>
         <h2 class="nav-tab-wrapper">
-        <a href="?page=share_on_diaspora_options_page&tab=1" class="nav-tab <? if ( ( $_GET['tab'] == '1' ) || !isset($_GET['tab'])) echo "nav-tab-active"; ?>">Button options</a>
+        <a href="?page=share_on_diaspora_options_page&tab=1" class="nav-tab <? if ( @( $_GET['tab'] == '1' ) || !isset($_GET['tab'])) echo "nav-tab-active"; ?>">Button options</a>
         <a href="?page=share_on_diaspora_options_page&tab=2" class="nav-tab <? if ( $_GET['tab'] == '2' ) echo "nav-tab-active"; ?>">Pod list options</a>
         </h2>
         <?php $current_tab = $_GET['tab'];
