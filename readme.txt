@@ -3,8 +3,8 @@ Contributors: Vitalie Ciubotaru
 Donate link: 
 Tags: diaspora, share, button
 Requires at least: 3.2.1
-Tested up to: 3.8
-Stable tag: 0.5
+Tested up to: 3.6.1
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,9 +37,14 @@ post in "Twenty Thirteen" theme.
 2. Choose a Diaspora pod from the list or type it in the text field.
 3. Verify the text of your post, Aspects that will see it etc, and press the Post button.
 4. To customize the look of you button, go to the Settings page, 'Button options' tab.
-5. To choose the pods to be included in the drop-down list, go to the Settings page, 'Pod list options' tab.
+5. To upload and use own image instead of the stock button, go to the Settings page, 'Custom Image' tab.
+6. To choose the pods to be included in the drop-down list, go to the Settings page, 'Pod list options' tab.
 
 == Changelog ==
+= 0.5 =
+* New options (custom image)
+* i18n: Portuguese (Brazil), Spanish, Russian and Romanian translations added
+
 = 0.4.1 =
 * Bug-fix: Button sometimes sharing wrong page
 
