@@ -4,7 +4,7 @@ Donate link:
 Tags: diaspora, share, button
 Requires at least: 3.2.1
 Tested up to: 3.8.1
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ accordance with the overall look and feel of their blogs.
 = i18n =
 There is an ongoing effort to translate the plugin into other languages.
 So far, the following translations are completed:
+
 * Spanish -- contributed by Andrew Kurtis from Webhostinghub.com
 * Portuguese (Brazil) -- contributed by Vostok <info@diaspbr.org>
 * Romanian
@@ -35,8 +36,7 @@ So far, the following translations are completed:
 No. Users can reshare to any Diaspora pod: select from the list or type their
 own.
 
-= I want to report a bug, request a feature or contribute code. What shall I
-do? =
+= I want to report a bug, request a feature or contribute code. What shall I do? =
 Bug reports, feature requests and real code are always welcome. Check out
 https://github.com/ciubotaru/share-on-diaspora or drop a line to "vitalie at
 ciubotaru dot tk".
@@ -54,9 +54,14 @@ Yes. In the plugin settings panel, go to 'Custom image' tab and upload your
 image or insert the URL of an existing image (e.g. from your Media gallery).
 After you are done, press 'Update'.
 
-= I want to change the list of pods. Is it possible? =
+= I want to change the list of displayed pods. Is it possible? =
 Yes. In the plugin settings panel, go to 'Pod list options' tab and check those
 pods that you want to see in the dialog. After you are done, press 'Update'.
+
+= My pod is not in the list. How can I add it? =
+I would suggest that you let me know the pod URL, so that I can add it and 
+update everybody's list. Of course, you can do it yourself by adding a line 
+to `pod_list_all.txt' in your plugin's directory.
 
 == Screenshots ==
 1. The "Share on D*" button under the default "Hello World"
