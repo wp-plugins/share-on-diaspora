@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.5
+Version: 0.5.2
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
@@ -88,7 +88,7 @@ function generate_button($preview, $use_own_image) {
     $options_array = get_option('share-on-diaspora-settings');
     if ( $use_own_image ) {
         //use own image
-        $button_box = "<div style='border-width:0;padding:0;'><img style='margin:0;padding:0;border-width:0;' src='" . $options_array['image_file'] . "'></div>";
+        $button_box = "<div id='diaspora-button-ownimage-div''><img id='diaspora-button-ownimage-img' src='" . $options_array['image_file'] . "'></div>";
     } else {
         //use standard image
         switch ($options_array['button_size']) {
@@ -118,14 +118,14 @@ function generate_button($preview, $use_own_image) {
         }
     }
 
-    $button = "<div style='display:block;'><a href=\"javascript:(function(){var url = ". $url . " ;var title = ". $title . ";   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
+    $button = "<div title='Diaspora*' id='diaspora-button-container'><a href=\"javascript:(function(){var url = ". $url . " ;var title = ". $title . ";   window.open('".plugin_dir_url(__FILE__)."new_window.php?url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title),'post','location=no,links=no,scrollbars=no,toolbar=no,width=620,height=400')})()\">
 " . $button_box . "</a></div>";
 
     return $button;
 }
 
 function generate_podlist() {
-    $podlist_preview = "<select style=\"background: #82A6B6; width: 268px; padding: 5px; font-size: 16px; line-height: 1; border: 0; border-radius: 0; height: 34px; -webkit-appearance: none; color: #fff\">
+    $podlist_preview = "<select id='diaspora-button-podlist'>
 <option>- " . __('Select from the list', 'share-on-diaspora') . " -</option>";
     $options_array = get_option('share-on-diaspora-settings');
     if (! $options_array) {
@@ -143,10 +143,11 @@ function generate_podlist() {
 }
 
 function diaspora_button_display($content) {
-    if( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) ) return $content;
-    $options_array = get_option('share-on-diaspora-settings');
-    $button_box = $this -> generate_button(FALSE, $options_array['use_own_image']);
-    return $content . $button_box;
+    if ( get_post_type() == 'post' && (!in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ))) {
+        $options_array = get_option('share-on-diaspora-settings');
+        $button_box = $this -> generate_button(FALSE, $options_array['use_own_image']);
+        return $content . $button_box;
+    } else return $content;
 }
 
 function share_on_diaspora_menu() {
@@ -251,7 +252,7 @@ function my_admin_init() {
     add_settings_field( 'use_own_image', __( 'Use custom image', 'share-on-diaspora' ), array($this, 'use_image_callback'), 'share_on_diaspora_options-upload', 'section-upload' );
 
     add_settings_section( 'section-podlist', __( 'Pod properties', 'share-on-diaspora' ), array($this, 'section_two_callback'), 'share_on_diaspora_options-podlist' );
-    require_once(plugin_dir_path( __FILE__ ).'pod_list_all.php');
+    $podlist = file(plugin_dir_path( __FILE__ ).'pod_list_all.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($podlist as $i) {
         add_settings_field( $i, $i, array($this, 'my_checkboxes'), 'share_on_diaspora_options-podlist', 'section-podlist', array('podname' => $i));
     }  
@@ -511,7 +512,7 @@ public function __construct() {
     // Register style sheet.
     add_action( 'wp_enqueue_scripts', array($this, 'register_share_on_diaspora_css') );
     add_action( 'admin_enqueue_scripts', array($this, 'register_share_on_diaspora_css') ); 
-    add_action('the_content', array($this, 'diaspora_button_display') );
+    add_filter('the_content', array($this, 'diaspora_button_display') );
     add_action( 'admin_menu', array($this, 'share_on_diaspora_menu') );
     add_action( 'admin_init', array($this, 'my_admin_init') );
 } //end function
