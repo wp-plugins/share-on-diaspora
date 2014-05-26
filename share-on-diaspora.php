@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.5.2
+Version: 0.5.3
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
@@ -74,6 +74,11 @@ function set_default() {
 function register_share_on_diaspora_css() {
     wp_register_style( 'share-on-diaspora', plugins_url( 'share-on-diaspora-css.php' , __FILE__ ) );
     wp_enqueue_style( 'share-on-diaspora' );
+}
+
+function register_share_on_diaspora_js() {
+    wp_register_script( 'share-on-diaspora', plugins_url( 'share-on-diaspora.js' , __FILE__ ) );
+    wp_enqueue_script( 'share-on-diaspora' );
 }
 
 function generate_button($preview, $use_own_image) {
@@ -253,9 +258,14 @@ function my_admin_init() {
 
     add_settings_section( 'section-podlist', __( 'Pod properties', 'share-on-diaspora' ), array($this, 'section_two_callback'), 'share_on_diaspora_options-podlist' );
     $podlist = file(plugin_dir_path( __FILE__ ).'pod_list_all.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (isset($options_array['podlist'])) {
+        $podlist = array_merge($podlist, array_keys($options_array['podlist']));
+        $podlist = array_unique($podlist);
+        }
     foreach ($podlist as $i) {
         add_settings_field( $i, $i, array($this, 'my_checkboxes'), 'share_on_diaspora_options-podlist', 'section-podlist', array('podname' => $i));
-    }  
+    };
+    add_settings_field( 'add_pod', __( 'Add a custom pod', 'share-on-diaspora' ), array($this, 'share_on_diaspora_addfield_callback'), 'share_on_diaspora_options-podlist', 'section-podlist');
 }
 
 function section_one_callback() {
@@ -343,6 +353,11 @@ function my_settings_validate( $input ) {
 //    update_option('share-on-diaspora-settings', $output);
     return $output;
 }
+
+function share_on_diaspora_addfield_callback() {
+    echo "<input type='text' name='newpodname' value=''/><input type='button' value='" . __('Add', 'share-on-diaspora') . "' onclick='addCheckbox();'>";
+}
+
 
 function button_settings_validate($input) {
     $button_defaults = $this -> button_defaults;
@@ -512,6 +527,7 @@ public function __construct() {
     // Register style sheet.
     add_action( 'wp_enqueue_scripts', array($this, 'register_share_on_diaspora_css') );
     add_action( 'admin_enqueue_scripts', array($this, 'register_share_on_diaspora_css') ); 
+    add_action( 'admin_enqueue_scripts', array($this, 'register_share_on_diaspora_js') ); 
     add_filter('the_content', array($this, 'diaspora_button_display') );
     add_action( 'admin_menu', array($this, 'share_on_diaspora_menu') );
     add_action( 'admin_init', array($this, 'my_admin_init') );
