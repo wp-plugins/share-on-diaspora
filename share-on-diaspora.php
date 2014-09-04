@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.5.4
+Version: 0.5.5
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
@@ -93,7 +93,7 @@ function generate_button($preview, $use_own_image) {
     $options_array = get_option('share-on-diaspora-settings');
     if ( $use_own_image ) {
         //use own image
-        $button_box = "<div id='diaspora-button-ownimage-div''><img id='diaspora-button-ownimage-img' src='" . $options_array['image_file'] . "'></div>";
+        $button_box = "<div id='diaspora-button-ownimage-div'><img id='diaspora-button-ownimage-img' src='" . $options_array['image_file'] . "'></div>";
     } else {
         //use standard image
         switch ($options_array['button_size']) {
@@ -172,7 +172,7 @@ function show_button_image() {
     $options_array = get_option('share-on-diaspora-settings');
     if (empty($options_array['image_file'])) {
         //$options_array['image_file'] = '';
-        $output = "<p>[No image]</p>";
+        $output = '<p>' . __('[No image]', 'share-on-diaspora') . '</p>';
     } else {
         $output = "<p><img src='" . $options_array['image_file'] . "'></p>";
     }
@@ -362,7 +362,7 @@ function share_on_diaspora_addfield_callback() {
 function button_settings_validate($input) {
     $button_defaults = $this -> button_defaults;
     if (!empty( $input['reset'] )) {
-        add_settings_error( 'share-on-diaspora-settings', 'reverted to defaults', __('All parameters reverted to their default values.', 'share-on-diaspora' ) );
+        add_settings_error( 'share-on-diaspora-settings', 'reverted to defaults', __('All parameters reverted to their default values.', 'share-on-diaspora' ), 'updated' );
         //pick all button-related settings from defaults (and leaving custom image and podlist stuff)
         $input = $button_defaults;
         unset($input['reset']);
@@ -387,7 +387,7 @@ function button_settings_validate($input) {
 
 function image_settings_validate($input) {
     if ($input['use_own_image'] == '1' && empty($input['image_file'])) {
-        add_settings_error( 'share-on-diaspora-settings', 'toggle_disabled', 'No image file specified. Falling back to standard button.', 'error' );
+        add_settings_error( 'share-on-diaspora-settings', 'toggle_disabled', __('No image file specified. Falling back to standard button.', 'share-on-diaspora'), 'error' );
         $input['use_own_image'] = '0';
     } elseif (empty($input['use_own_image'])) {
         $input['use_own_image'] = '0';
@@ -453,7 +453,7 @@ function share_on_diaspora_options_page() {
         if (!empty($_POST['share-on-diaspora-settings']['delete'])) {
             // if "clear" was pressed, then clear image_file and ignore other options
             $image_settings['image_file'] = '';
-            add_settings_error( 'share-on-diaspora-settings', 'image deleted', __('Image URL cleared.', 'share-on-diaspora' ) );
+            add_settings_error( 'share-on-diaspora-settings', 'image deleted', __('Image URL cleared.', 'share-on-diaspora' ), 'updated' );
         } elseif (!empty($_FILES) && !empty($_FILES['file']) && ($_FILES['file']['error'] == '0')) {
             // if something was uploaded, handle it and ignore other options
             $uploadedfile = $_FILES['file'];
@@ -476,7 +476,7 @@ function share_on_diaspora_options_page() {
                 $result = wp_update_attachment_metadata( $attach_id, $attach_data );
             }
             $image_settings['image_file'] = $movefile['url'];
-            add_settings_error( 'share-on-diaspora-settings', 'image uploaded', __('Custom image file uploaded.', 'share-on-diaspora' ) );
+            add_settings_error( 'share-on-diaspora-settings', 'image uploaded', __('Custom image file uploaded.', 'share-on-diaspora' ), 'updated' );
         } elseif (!empty($_POST['share-on-diaspora-settings']['image_file'])) {
             //finally, if image URL was provided, use it
             $image_settings['image_file'] = $_POST['share-on-diaspora-settings']['image_file'];
