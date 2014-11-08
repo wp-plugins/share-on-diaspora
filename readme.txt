@@ -3,8 +3,8 @@ Contributors: Vitalie Ciubotaru
 Donate link: 
 Tags: diaspora, share, button
 Requires at least: 3.2.1
-Tested up to: 3.9.2
-Stable tag: 0.5.5
+Tested up to: 4.0
+Stable tag: 0.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,9 +26,9 @@ So far, the following translations are available:
 * Romanian
 * Russian
 * Spanish -- contributed by Andrew Kurtis from Webhostinghub.com and David Charte 
-* French (incomplete)
+* French -- contributed by Stef20 from stef20.info/blog and Se7h.
 
-To change language, set the WPLANG variabale to your language code (e.g. pt_BR) in wp-config.php.
+To change language, set the $locale variable to your language code (e.g. $locale = 'pt_BR';) in wp-config.php.
 
 == Installation ==
 1. Unpack `share-on-diaspora.zip` and upload its contents to the `/wp-content/plugins/` directory
@@ -82,8 +82,12 @@ page, 'Custom Image' tab.
 page, 'Pod list options' tab.
 
 == Changelog ==
+= 0.5.6 =
+* Updated list of active pods
+* i18n: French translation added
+
 = 0.5.5 =
-* i18n: Italian translation added.
+* i18n: Italian translation added
 
 = 0.5.4 =
 * Updated list of active pods
