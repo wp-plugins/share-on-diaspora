@@ -25,8 +25,8 @@ So far, the following translations are available:
 * Portuguese (Brazil) -- contributed by Vostok <info@diaspbr.org>
 * Romanian
 * Russian
-* Spanish -- contributed by Andrew Kurtis from Webhostinghub.com and David Charte 
-* French -- contributed by Stef20 from stef20.info/blog and Se7h.
+* Spanish -- contributed by Andrew Kurtis from www.webhostinghub.com and David Charte 
+* French -- contributed by Stef20 from www.stef20.info/blog and Se7h
 
 To change language, set the $locale variable to your language code (e.g. $locale = 'pt_BR';) in wp-config.php.
 
