@@ -4,7 +4,7 @@ Donate link:
 Tags: diaspora, share, button
 Requires at least: 3.2.1
 Tested up to: 4.0
-Stable tag: 0.5.6
+Stable tag: 0.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,7 @@ So far, the following translations are available:
 * Portuguese (Brazil) -- contributed by Vostok <info@diaspbr.org>
 * Romanian
 * Russian
+* Serbo-Croatian -- contributed by Borisa Djuraskovic from Webhostinghub.com
 * Spanish -- contributed by Andrew Kurtis from Webhostinghub.com and David Charte 
 * French -- contributed by Stef20 from stef20.info/blog and Se7h.
 
@@ -82,6 +83,10 @@ page, 'Custom Image' tab.
 page, 'Pod list options' tab.
 
 == Changelog ==
+= 0.5.7 =
+* Updated list of active pods
+* i18n: Serbo-Croatian translation added
+
 = 0.5.6 =
 * Updated list of active pods
 * i18n: French translation added

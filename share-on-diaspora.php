@@ -3,7 +3,7 @@
 Plugin Name: Share on Diaspora
 Plugin URI:
 Description: This plugin adds a "Share on D*" button at the bottom of your posts.
-Version: 0.5.6
+Version: 0.5.7
 Author: Vitalie Ciubotaru
 Author URI: https://github.com/ciubotaru
 License: GPL2
