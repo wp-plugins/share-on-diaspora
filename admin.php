@@ -219,7 +219,7 @@ function my_admin_init() {
         $podlist_unchecked = array_diff($options_array['podlist-all'], array_keys($podlist));
     }
     else {
-        $podlist_unchecked = array('example.com' => '1');
+        $podlist_unchecked = array('example.com');
     }
     add_settings_field( 'add_pod', __( 'Add a pod', 'share-on-diaspora' ), array($this, 'share_on_diaspora_addfield_callback'), 'share_on_diaspora_options-podlist', 'section-podlist', $podlist_unchecked);
     foreach ($podlist as $key => $value) {
