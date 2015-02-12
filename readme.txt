@@ -1,10 +1,9 @@
 === Plugin Name ===
 Contributors: Vitalie Ciubotaru
-Donate link: 
 Tags: diaspora, share, button
 Requires at least: 3.2.1
-Tested up to: 4.0
-Stable tag: 0.5.6
+Tested up to: 4.1
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +11,7 @@ This plugin adds a "Share on D*" button at the bottom of your posts.
 
 == Description ==
 This plugin adds a "Share on Diaspora" button at the bottom of your posts. Unlike other similar buttons, 
-this one is not tied to one single pod. Instead it allowes the users to select their favorite pod from the list, 
+this one is not tied to one single pod. Instead it allows the users to select their favorite pod from the list, 
 or type it directly. The button is highly customizable, allowing blog admins to set the color, size and shape in 
 accordance with the overall look and feel of their blogs.
 
@@ -20,15 +19,17 @@ accordance with the overall look and feel of their blogs.
 There is an ongoing effort to translate the plugin into other languages.
 So far, the following translations are available:
 
+* French -- contributed by Stef20 from stef20.info/blog and Se7h
+* German -- contributed by Georg Krause <mail@georg-krause.net>
 * Italian -- contributed by Sandro kensan <kensan@kensan.it> from www.kensan.it
 * Japanese
 * Portuguese (Brazil) -- contributed by Vostok <info@diaspbr.org>
 * Romanian
 * Russian
-* Spanish -- contributed by Andrew Kurtis from Webhostinghub.com and David Charte 
-* French -- contributed by Stef20 from stef20.info/blog and Se7h.
+* Serbo-Croatian -- contributed by Borisa Djuraskovic from Webhostinghub.com
+* Spanish -- contributed by Andrew Kurtis from Webhostinghub.com and David Charte
 
-To change language, set the $locale variable to your language code (e.g. $locale = 'pt_BR';) in wp-config.php.
+Please note, that some translations might be incomplete and lack latest changes.
 
 == Installation ==
 1. Unpack `share-on-diaspora.zip` and upload its contents to the `/wp-content/plugins/` directory
@@ -74,14 +75,26 @@ post in "Twenty Thirteen" theme.
 2. Choose a Diaspora pod from the list or type it in the text field.
 3. Verify the text of your post, Aspects that will see it etc, and press the
 Post button.
-4. To customize the look of you button, go to the Settings page, 'Button
+4. To choose from several preset color profiles, go to the Settings page,
+'Color Profiles' tab.
+5. To customize the look of you button, go to the Settings page, 'Button
 options' tab.
-5. To upload and use own image instead of the stock button, go to the Settings
+6. To upload and use own image instead of the stock button, go to the Settings
 page, 'Custom Image' tab.
-6. To choose the pods to be included in the drop-down list, go to the Settings
+7. To choose the pods to be included in the drop-down list, go to the Settings
 page, 'Pod list options' tab.
 
 == Changelog ==
+= 0.6 =
+* Added color presets
+* Changed podlis update mechanism
+* Added support for an auxiliary plugin (Diaspora Podlist Updater)
+* Very likely added new bugs
+
+= 0.5.7 =
+* Updated list of active pods
+* i18n: Serbo-Croatian translation added
+
 = 0.5.6 =
 * Updated list of active pods
 * i18n: French translation added
